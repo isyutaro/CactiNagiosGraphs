@@ -1,0 +1,97 @@
+#!/usr/bin/python
+from mem import *
+MC.delete("FECHA")
+from optparse import OptionParser
+from config import EMAIL_TO, HOST_SERVER, email_re
+import os
+import datetime
+from SQL import *
+from libreria import *
+from fecha import *
+
+FECHA = ''
+##parametros que se pueden recibir
+parser = OptionParser(usage="usage: %prog [options]", version="%prog 0.1")
+parser.add_option("-d", dest="fecha",
+    default=True, type="string",
+    help="Mes y ano de reporte [MM-YYYY]")
+parser.add_option("-m", dest="MailTo",
+    default=True, type="string",
+    help="correo donde se envia el reporte")
+parser.add_option("-H", dest="host",
+    default=True, type="string",
+    help="Nombre del host que se graficara")
+(options, args) = parser.parse_args()
+##
+if(options.MailTo != True):
+	if not email_re.search(str(options.MailTo)):
+		print "e-mail incorrecto"
+		exit(0)
+	else:
+		EMAIL_TO = str(options.MailTo)
+
+if(options.host != True):
+	HOST_SERVER =  str(options.host)
+if(options.fecha != True):
+	FECHA = str(options.fecha)
+	try:
+		FECHA = FECHA.split('-')
+		FECHA = datetime.datetime(int(FECHA[1]), int(FECHA[0]), 1, 0 ,0)
+		#incrementamos 1 mes para que nos de los resultados del mes actual
+		#esto es porque la clase fecha devuelve los dias del mes anterior al actual
+		FECHA = FECHA + datetime.timedelta(days=32)
+	except:
+		print "Formato de fecha incorrecto"
+		exit(0)
+##
+#set FECHA a memcache
+MC.set("FECHA", FECHA)
+
+path = os.path.abspath(os.path.dirname(__file__)) + "/"
+#variables listas
+listaServidores = []
+fecha = fecha()
+hoy = fecha.getNow(FECHA)
+lib = libreria()
+lib.leeFECHA()
+#obtenemos la lista de servidores y graficas que se encuentran en Cacti
+print "Generando Lista de servidores en Cacti. \n"
+listaCacti = SQL().getListaCacti(HOST_SERVER)
+if(len(listaCacti)==0):
+	print "No se encontraron servidores con el nombre: [%s]" % HOST_SERVER
+	exit(0)
+#iniciamos a generar las graficas de cada servidor
+print "Generando imagenes... \n"
+lib.generarImagenes(listaCacti)
+
+#obtenemos fechas de inicio y fin de cada grafica del mes anterior
+listaImagenes = lib.getListaImagenes() 
+
+#Obtenemos la lista de servidores de la lista de cacti
+print "Generando lista de Servidores...\n"
+for i in listaCacti:
+    listaServidores.append(i[1].split('-')[0].strip().replace(' ','-'))
+
+#borramos elementos repetidos
+listaServidores = list(set(listaServidores))
+#print listaServidores
+
+print "Obteniendo logs de nagios...\n"
+logs = lib.obtenerLogNagios(listaServidores)
+
+print "Generando PDF...\n\n"
+for i in listaServidores:
+    print "Generando pdf de: " + i
+    fechaFin = fecha.getUltimoDia(hoy)
+    fechaInicio = fecha.getPrimerDia(fechaFin)
+    c = lib.nuevoDocumento(path + "pdf/" + i.lower() + ".pdf", "Reporte del servidor " + i.lower())
+    lib.insertarEncabezado(c,"Servidor " + i.lower(), fechaInicio, fechaFin)
+    lib.insertaImagenes(c, listaImagenes, i)
+    lib.insertarLogs(c, logs, i)
+    c.save()
+    print "pdf/" + i + ", terminado."
+
+print "\nEnviando correo...\n"
+lib.enviaCorreo(listaServidores, EMAIL_TO)
+
+print "\n\nFin de generacion de reportes\n"

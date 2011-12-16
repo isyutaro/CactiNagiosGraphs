@@ -1,0 +1,35 @@
+Generador de reportes de Cacti y Nagios v0.1
+#################################
+Requerimientos
+#################################
+python 2.6
+reportlab
+twill
+python-memcached
+cacti 0.8.7g
+nagios 3.2.3
+
+#################################
+Funcionamiento
+#################################
+Si el programa se ejecuta sin parámetros, este va a generar
+todos los reportes de cada servidor que se encuentre en cacti
+del mes anterior a la fecha en que se ejecuta.
+
+También puede recibir parámetros, tales como: (genera -h)
+
+Usage: genera [options]
+
+Options:
+  --version   show program's version number and exit
+  -h, --help  show this help message and exit
+  -d FECHA    Mes y año de reporte [MM-YYYY]
+  -m MAILTO   correo donde se envia el reporte
+  -H HOST     Nombre del host que se graficara
+
+donde:
+-d	nos regresa los reportes del mes y año mencionado
+-m	los reportes se envían al correo electrónico mencionado
+-H	genera reportes del host (servidor) mencionado
+
+bugs, sugerencias y comentarios: jean.sanchez@intersys.mx
