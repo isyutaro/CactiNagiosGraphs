@@ -305,7 +305,7 @@ class libreria:
         f = str(f.month) + '-' + str(f.year)
         # Creamos objeto Multipart, quien ser� el recipiente que enviaremos
         msg = MIMEMultipart()
-        msg['From']="jean.sanchez@interalia.net"
+        msg['From']=SENDER_MAIL
         msg['Subject']="Reporte Mensual de monitoreo [" + f + "]"
         msg['X-Mailer'] = "Python X-Mailer"
         
@@ -325,11 +325,11 @@ class libreria:
             msg.attach(part)
             
         #conectamos
-        mailServer = smtplib.SMTP('mail.interalia.net',587)
+        mailServer = smtplib.SMTP(MAIL_SERVER,PORT)
         # Enviamos
         for correo in CORREOSa:
             msg['To'] = correo.strip()
-            mailServer.sendmail("jean.sanchez@interalia.net", correo.strip(), msg.as_string())
+            mailServer.sendmail(SENDER_MAIL, correo.strip(), msg.as_string())
             print "CORREO a: ", correo.strip(), " enviado."
         # Cerramos conexi�n
         mailServer.close()
