@@ -16,7 +16,7 @@ from email.MIMEText import MIMEText
 from email.Encoders import encode_base64
 from email import Encoders
 
-from config import CORREOS, EQUIPO, ACTIVIDADES, TEXTOS, NOTAS, ALERTAS, PIE_PAGINA, HOST_CACTI, LOGO, USER_WEB_CACTI, PASSWD_WEB_CACTI, SENDER_MAIL
+from config import CORREOS, EQUIPO, ACTIVIDADES, TEXTOS, NOTAS, ALERTAS, PIE_PAGINA, HOST_CACTI, LOGO, USER_WEB_CACTI, PASSWD_WEB_CACTI, SENDER_MAIL, MAIL_SERVER, PORT
 #from settings import USER_WEB_CACTI, PASSWD_WEB_CACTI
 
 from mem import *
