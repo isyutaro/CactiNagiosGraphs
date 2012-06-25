@@ -318,7 +318,7 @@ class libreria:
         #adjuntamos PDF
         for i in listaServidores:
             file = ("pdf/" + i + ".pdf").lower()
-            part = MIMEBase('application', "octet-stream")
+            part = MIMEBase('application', "pdf")
             part.set_payload(open(self.path + file, "rb").read())
             Encoders.encode_base64(part)
             part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(file))
