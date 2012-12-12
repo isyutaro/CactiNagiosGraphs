@@ -85,7 +85,7 @@ for i in listaServidores:
     fechaFin = fecha.getUltimoDia(hoy)
     fechaInicio = fecha.getPrimerDia(fechaFin)
     #revisamos si es ejecutado en la fecha actual
-    if len(str(self.FECHA)) < 5:
+    if len(str(FECHA)) < 5:
         fechaPDF = fecha().getNow(FECHA)
     else:
         fechaPDF = fecha().getNow(FECHA) - datetime.timedelta(days=32)
