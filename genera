@@ -84,7 +84,14 @@ for i in listaServidores:
     print "Generando pdf de: " + i
     fechaFin = fecha.getUltimoDia(hoy)
     fechaInicio = fecha.getPrimerDia(fechaFin)
-    c = lib.nuevoDocumento(path + "pdf/" + i.lower() + ".pdf", "Reporte del servidor " + i.lower())
+    #revisamos si es ejecutado en la fecha actual
+    if len(str(self.FECHA)) < 5:
+        fechaPDF = fecha().getNow(self.FECHA)
+    else:
+        fechaPDF = fecha().getNow(self.FECHA) - datetime.timedelta(days=32)
+    #Componemos en formato YYYY-MM
+    fechaPDF = "[" + str(fechaPDF.year) + '-' + str(fechaPDF.month).zfill(2) + "]"
+    c = lib.nuevoDocumento(path + "pdf/" + i.lower() + fechaPDF + ".pdf", "Reporte del servidor " + i.lower())
     lib.insertarEncabezado(c,"Servidor " + i.lower(), fechaInicio, fechaFin)
     lib.insertaImagenes(c, listaImagenes, i)
     lib.insertarLogs(c, logs, i)

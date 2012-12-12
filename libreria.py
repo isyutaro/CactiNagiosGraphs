@@ -301,8 +301,8 @@ class libreria:
             f = fecha().getNow(self.FECHA)
         else:
             f = fecha().getNow(self.FECHA) - datetime.timedelta(days=32)
-        #mostramos mes y año en que se esta generando el reporte
-        f = str(f.month) + '-' + str(f.year)
+        #mostramos ano y mes en que se esta generando el reporte
+        f = str(f.year) + '-' + str(f.month).zfill(2)
         # Creamos objeto Multipart, quien ser� el recipiente que enviaremos
         msg = MIMEMultipart()
         msg['From']=SENDER_MAIL
