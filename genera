@@ -94,6 +94,6 @@ for i in listaServidores:
     print "pdf/" + i + ", terminado."
 
 print "\nEnviando correo...\n"
-lib.enviaCorreo(listaServidores, EMAIL_TO)
+lib.enviaCorreo(listaServidores, EMAIL_TO, fechaPDF)
 
 print "\n\nFin de generacion de reportes\n"

@@ -290,17 +290,12 @@ class libreria:
             listaImagenes.append("imagenes/" + fileName + ".png")
             os.system(cmd)
     
-    def enviaCorreo(self, listaServidores, EMAIL_TO):
+    def enviaCorreo(self, listaServidores, EMAIL_TO, f):
         #igualamos variable del import para poderla modificar
         CORREOSa = CORREOS
         #comparamos si existe un correo para cambiar el correo de envio por default
         if len(EMAIL_TO) > 3:
             CORREOSa = [EMAIL_TO]
-        #revisamos si es ejecutado en la fecha actual
-        if len(str(self.FECHA)) < 5:
-            f = fecha().getNow(self.FECHA)
-        else:
-            f = fecha().getNow(self.FECHA) - datetime.timedelta(days=32)
         #mostramos ano y mes en que se esta generando el reporte
         f = str(f.year) + '-' + str(f.month).zfill(2)
         # Creamos objeto Multipart, quien ser� el recipiente que enviaremos
