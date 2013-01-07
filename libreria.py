@@ -310,7 +310,7 @@ class libreria:
         
         #adjuntamos PDF
         for i in listaServidores:
-            file = ("pdf/" + i + "[" + f + "]" + ".pdf").lower()
+            file = ("pdf/" + i + f + ".pdf").lower()
             part = MIMEBase('application', "pdf")
             part.set_payload(open(self.path + file, "rb").read())
             Encoders.encode_base64(part)
