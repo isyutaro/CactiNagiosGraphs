@@ -299,7 +299,7 @@ class libreria:
         # Creamos objeto Multipart, quien ser� el recipiente que enviaremos
         msg = MIMEMultipart()
         msg['From']=SENDER_MAIL
-        msg['Subject']="Reporte Mensual de monitoreo [" + f + "]"
+        msg['Subject']="Reporte Mensual de monitoreo" + f
         msg['X-Mailer'] = "Python X-Mailer"
         
         texto = """
