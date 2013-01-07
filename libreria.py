@@ -296,8 +296,6 @@ class libreria:
         #comparamos si existe un correo para cambiar el correo de envio por default
         if len(EMAIL_TO) > 3:
             CORREOSa = [EMAIL_TO]
-        #mostramos ano y mes en que se esta generando el reporte
-        f = str(f.year) + '-' + str(f.month).zfill(2)
         # Creamos objeto Multipart, quien ser� el recipiente que enviaremos
         msg = MIMEMultipart()
         msg['From']=SENDER_MAIL
