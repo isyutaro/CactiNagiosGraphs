@@ -291,6 +291,9 @@ class libreria:
             os.system(cmd)
     
     def enviaCorreo(self, listaServidores, EMAIL_TO, f):
+        #Fecha
+        date = datetime.datetime.utcnow()
+        date = "%s -0000" % date.strftime('%a, %d %b %Y %H:%M:%S')
         #igualamos variable del import para poderla modificar
         CORREOSa = CORREOS
         #comparamos si existe un correo para cambiar el correo de envio por default
@@ -301,6 +304,7 @@ class libreria:
         msg['From']=SENDER_MAIL
         msg['Subject']="Reporte Mensual de monitoreo" + f
         msg['X-Mailer'] = "Python X-Mailer"
+        msg['Date'] = date
         
         texto = """
         Reporte Mensual de los servidores monitoreados por Interalia
